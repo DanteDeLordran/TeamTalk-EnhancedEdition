@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "channels")
-data class Channel (
+class Channel (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long,

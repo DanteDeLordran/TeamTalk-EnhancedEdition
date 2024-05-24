@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "groups")
-data class Group (
+class Group (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long,
