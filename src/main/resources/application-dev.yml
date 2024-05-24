@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/teamtalk_db
+    username: lordran_dev
+    password: lordran_dev
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/teamtalk_db
+    user: lordran_dev
+    password: lordran_dev
+    schemas:
+      - public
+    locations:
+      - classpath:db/migration
+    baseline-version: 1
