@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : Long,
+    val id : Long?,
     var name : String,
     var lastname : String,
     var username : String,

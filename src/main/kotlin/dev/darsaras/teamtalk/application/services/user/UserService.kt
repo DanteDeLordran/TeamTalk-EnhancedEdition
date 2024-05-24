@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity
 interface UserService {
 
     fun createUser(request : UserRequest) : ResponseEntity<Unit>
-
     fun getUser(id : Long) : ResponseEntity<Unit>
 
 }
