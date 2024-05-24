@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.darsaras</groupId>
 	<artifactId>teamtalk</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>teamtalk</name>
 	<description>TeamTalk Spring version</description>
 	<properties>
@@ -109,6 +109,18 @@
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.2</version>
+				<configuration>
+					<to>
+						<image>dantedelordran/${project.artifactId}:${project.version}</image>
+					</to>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
