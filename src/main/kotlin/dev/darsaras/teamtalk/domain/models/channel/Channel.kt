@@ -12,6 +12,6 @@ class Channel (
     val id : Long? = null,
     var name : String,
     @ManyToOne
-    var group : Group,
+    val group : Group,
     val createdAt : LocalDateTime
 )
