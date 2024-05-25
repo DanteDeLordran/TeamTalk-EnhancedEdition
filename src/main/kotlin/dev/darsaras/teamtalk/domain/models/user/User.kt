@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : Long?,
+    val id : Long? = null,
     var name : String,
     var lastname : String,
     var username : String,
@@ -24,6 +24,6 @@ class User (
         joinColumns = [JoinColumn(name= "user_id")],
         inverseJoinColumns = [JoinColumn(name = "group_id")]
     )
-    var groups : Set<Group>,
+    var groups : Set<Group>? = setOf(),
     var createdAt : LocalDateTime
 )
