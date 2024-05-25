@@ -21,6 +21,14 @@ CREATE TABLE IF NOT EXISTS groups (
     created_at TIMESTAMP NOT NULL
 );
 
+CREATE TABLE users_groups (
+    user_id BIGINT NOT NULL,
+    group_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, group_id),
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (group_id) REFERENCES groups (id)
+);
+
 CREATE TABLE IF NOT EXISTS channels (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
