@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity
 
 interface MessageService {
     fun createMessage( request : MessageRequest ) : ResponseEntity<Unit>
+    fun getMessage( id : Long ) : ResponseEntity<Unit>
+    fun getAllMessages( channelId : Long ) : ResponseEntity<Unit>
     fun deleteMessage( id : Long ) : ResponseEntity<Unit>
     fun changeDescription( id : Long , description : String ) : ResponseEntity<Unit>
 }

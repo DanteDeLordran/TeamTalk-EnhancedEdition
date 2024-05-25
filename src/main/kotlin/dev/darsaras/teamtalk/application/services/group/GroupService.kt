@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity
 
 interface GroupService {
     fun createGroup( request : GroupRequest ) : ResponseEntity<Unit>
+    fun getGroup( id : Long ) : ResponseEntity<Unit>
+    fun getAllGroups( userId : Long ) : ResponseEntity<Unit>
     fun deleteGroup( id : Long ) : ResponseEntity<Unit>
     fun changeGroupName( id : Long , name : String ) : ResponseEntity<Unit>
     fun addMembers( id : Long , members : Set<User> ) : ResponseEntity<Unit>

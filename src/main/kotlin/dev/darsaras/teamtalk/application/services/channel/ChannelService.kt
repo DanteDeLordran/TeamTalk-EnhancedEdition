@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity
 
 interface ChannelService {
     fun createChannel( request : ChannelRequest ) : ResponseEntity<Unit>
+    fun getChannel( id : Long ) : ResponseEntity<Unit>
+    fun getAllChannels( groupId : Long ) : ResponseEntity<Unit>
     fun deleteChannel( id : Long ) : ResponseEntity<Unit>
     fun changeChannelName( id : Long , name : String ) : ResponseEntity<Unit>
 }
