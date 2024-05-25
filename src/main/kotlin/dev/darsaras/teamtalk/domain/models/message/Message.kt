@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 class Message(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : Long,
+    val id : Long? = null,
     @ManyToOne
     val user : User,
     var description : String,
