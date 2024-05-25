@@ -27,6 +27,7 @@ class UserImplementation(private val userRepository: UserRepository, private val
             email =  request.email,
             username = request.username,
             createdAt = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime(),
+            groups = setOf(),
             id = null
         )
         userRepository.save(user)
