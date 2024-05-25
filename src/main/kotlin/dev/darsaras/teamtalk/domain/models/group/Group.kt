@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 class Group (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : Long,
+    val id : Long? = null,
     var name : String,
     @ManyToMany(mappedBy = "groups")
     var users : Set<User>,

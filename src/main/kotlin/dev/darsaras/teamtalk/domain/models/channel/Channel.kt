@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 class Channel (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : Long,
+    val id : Long? = null,
     var name : String,
     @ManyToOne
     var group : Group,
