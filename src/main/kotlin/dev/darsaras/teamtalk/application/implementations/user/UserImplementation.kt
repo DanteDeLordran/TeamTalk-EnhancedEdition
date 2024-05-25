@@ -26,15 +26,21 @@ class UserImplementation(private val userRepository: UserRepository, private val
             role = role,
             email =  request.email,
             username = request.username,
-            createdAt = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime(),
-            groups = setOf(),
-            id = null
+            createdAt = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime()
         )
         userRepository.save(user)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
     override fun getUser(id: Long): ResponseEntity<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateUser(request: UserRequest, id: Long): ResponseEntity<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteUser(id: Long): ResponseEntity<Unit> {
         TODO("Not yet implemented")
     }
 
