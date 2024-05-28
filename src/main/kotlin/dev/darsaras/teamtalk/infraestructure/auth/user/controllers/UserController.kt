@@ -7,6 +7,7 @@ import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -36,6 +37,11 @@ class UserController(private val userService: UserService) {
     @DeleteMapping("/delete")
     fun deleteUser( @RequestParam id : Long ) : ResponseEntity<Unit> {
         return userService.deleteUser(id)
+    }
+
+    @PatchMapping("/update/password")
+    fun updatePassword( id : Long , password : String ): ResponseEntity<Unit> {
+        return userService.updatePassword(id,password)
     }
 
 }
