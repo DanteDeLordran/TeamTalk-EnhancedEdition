@@ -12,6 +12,6 @@ class Group (
     val id : Long? = null,
     var name : String,
     @ManyToMany(mappedBy = "groups")
-    var users : Set<User>,
+    var users : MutableSet<User>,
     val createdAt : LocalDateTime
 )
