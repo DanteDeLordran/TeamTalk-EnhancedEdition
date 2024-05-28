@@ -49,11 +49,27 @@ class UserImplementation(private val userRepository: UserRepository, private val
     }
 
     override fun updateUser(request: UserRequest, id: Long): ResponseEntity<Unit> {
-        TODO("Not yet implemented")
+        val user = userRepository.findById(id)
+        if (user.isPresent){
+
+            user.get().name = request.name
+            user.get().lastname = request.lastname
+            user.get().username = request.username
+            user.get().email = request.email
+            user.get().password = request.password
+
+            userRepository.save(user.get())
+
+            return ResponseEntity.status(HttpStatus.OK).build()
+        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
     }
 
     override fun deleteUser(id: Long): ResponseEntity<Unit> {
-        TODO("Not yet implemented")
+        val user = userRepository.findById(id)
+        if (user.isPresent){
+            userRepository.deleteById(id)
+            return ResponseEntity.status(HttpStatus.OK).build()
+        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
     }
 
 }
