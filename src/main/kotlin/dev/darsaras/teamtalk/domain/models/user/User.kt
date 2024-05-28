@@ -24,6 +24,6 @@ class User (
         joinColumns = [JoinColumn(name= "user_id")],
         inverseJoinColumns = [JoinColumn(name = "group_id")]
     )
-    var groups : Set<Group>? = setOf(),
+    var groups : MutableSet<Group>? = mutableSetOf(),
     var createdAt : LocalDateTime
 )
