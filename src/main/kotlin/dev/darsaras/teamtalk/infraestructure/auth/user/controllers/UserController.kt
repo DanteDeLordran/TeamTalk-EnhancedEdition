@@ -2,6 +2,7 @@ package dev.darsaras.teamtalk.infraestructure.auth.user.controllers
 
 import dev.darsaras.teamtalk.application.services.user.UserService
 import dev.darsaras.teamtalk.domain.models.user.requests.UserRequest
+import dev.darsaras.teamtalk.domain.models.user.requests.UserUpdateRequest
 import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -28,7 +29,7 @@ class UserController(private val userService: UserService) {
     }
 
     @PutMapping("/update")
-    fun updateUser( @RequestBody request : UserRequest , @RequestParam id : Long) : ResponseEntity<Unit> {
+    fun updateUser( @RequestBody request : UserUpdateRequest , @RequestParam id : Long) : ResponseEntity<Unit> {
         return userService.updateUser(request , id)
     }
 

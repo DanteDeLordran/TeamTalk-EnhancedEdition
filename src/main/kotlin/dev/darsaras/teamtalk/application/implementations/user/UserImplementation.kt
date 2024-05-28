@@ -4,6 +4,7 @@ import dev.darsaras.teamtalk.application.services.user.UserService
 import dev.darsaras.teamtalk.domain.models.role.Role
 import dev.darsaras.teamtalk.domain.models.user.User
 import dev.darsaras.teamtalk.domain.models.user.requests.UserRequest
+import dev.darsaras.teamtalk.domain.models.user.requests.UserUpdateRequest
 import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
 import dev.darsaras.teamtalk.domain.repositories.role.RoleRepository
 import dev.darsaras.teamtalk.domain.repositories.user.UserRepository
@@ -48,7 +49,7 @@ class UserImplementation(private val userRepository: UserRepository, private val
         }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
     }
 
-    override fun updateUser(request: UserRequest, id: Long): ResponseEntity<Unit> {
+    override fun updateUser(request: UserUpdateRequest, id: Long): ResponseEntity<Unit> {
         val user = userRepository.findById(id)
         if (user.isPresent){
 
@@ -56,7 +57,6 @@ class UserImplementation(private val userRepository: UserRepository, private val
             user.get().lastname = request.lastname
             user.get().username = request.username
             user.get().email = request.email
-            user.get().password = request.password
 
             userRepository.save(user.get())
 
@@ -70,6 +70,10 @@ class UserImplementation(private val userRepository: UserRepository, private val
             userRepository.deleteById(id)
             return ResponseEntity.status(HttpStatus.OK).build()
         }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+    }
+
+    override fun updatePassword(id: Long, password: String): ResponseEntity<Unit> {
+        TODO("Not yet implemented")
     }
 
 }
