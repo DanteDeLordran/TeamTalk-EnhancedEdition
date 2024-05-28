@@ -4,6 +4,7 @@ import dev.darsaras.teamtalk.application.services.user.UserService
 import dev.darsaras.teamtalk.domain.models.role.Role
 import dev.darsaras.teamtalk.domain.models.user.User
 import dev.darsaras.teamtalk.domain.models.user.requests.UserRequest
+import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
 import dev.darsaras.teamtalk.domain.repositories.role.RoleRepository
 import dev.darsaras.teamtalk.domain.repositories.user.UserRepository
 import org.springframework.http.HttpStatus
@@ -32,8 +33,19 @@ class UserImplementation(private val userRepository: UserRepository, private val
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
-    override fun getUser(id: Long): ResponseEntity<Unit> {
-        TODO("Not yet implemented")
+    override fun getUser(id: Long): ResponseEntity<UserResponse> {
+        val user = userRepository.findById(id)
+        if (user.isPresent){
+            val response = UserResponse(
+                id = user.get().id ?: 1,
+                name = user.get().name,
+                lastname = user.get().lastname,
+                username = user.get().username,
+                email = user.get().email,
+                role = user.get().role
+            )
+            return ResponseEntity.status(HttpStatus.OK).body(response)
+        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
     }
 
     override fun updateUser(request: UserRequest, id: Long): ResponseEntity<Unit> {
