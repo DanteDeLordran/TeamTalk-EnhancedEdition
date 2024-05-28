@@ -50,7 +50,7 @@ class GroupController( private val groupService: GroupService) {
     }
 
     @PutMapping("/members/remove")
-    fun removeMembers( id: Long, members: Set<User> ): ResponseEntity<Unit> {
+    fun removeMembers( @RequestParam id: Long, @RequestBody members: Set<User> ): ResponseEntity<Unit> {
         return groupService.removeMembers(id,members)
     }
 
