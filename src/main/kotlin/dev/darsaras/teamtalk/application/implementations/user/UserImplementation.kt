@@ -1,5 +1,6 @@
 package dev.darsaras.teamtalk.application.implementations.user
 
+import dev.darsaras.teamtalk.application.exceptions.ResourceNotFoundException
 import dev.darsaras.teamtalk.application.services.user.UserService
 import dev.darsaras.teamtalk.domain.models.role.Role
 import dev.darsaras.teamtalk.domain.models.user.User
@@ -46,7 +47,7 @@ class UserImplementation(private val userRepository: UserRepository, private val
                 role = user.get().role
             )
             return ResponseEntity.status(HttpStatus.OK).body(response)
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }else throw ResourceNotFoundException(resourceName = "User", fieldName = "id", fieldValue = "$id")
     }
 
     override fun updateUser(request: UserUpdateRequest, id: Long): ResponseEntity<Unit> {
@@ -61,7 +62,7 @@ class UserImplementation(private val userRepository: UserRepository, private val
             userRepository.save(user.get())
 
             return ResponseEntity.status(HttpStatus.OK).build()
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }else throw ResourceNotFoundException(resourceName = "User", fieldName = "id", fieldValue = "$id")
     }
 
     override fun deleteUser(id: Long): ResponseEntity<Unit> {
@@ -69,7 +70,7 @@ class UserImplementation(private val userRepository: UserRepository, private val
         if (user.isPresent){
             userRepository.deleteById(id)
             return ResponseEntity.status(HttpStatus.OK).build()
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }else throw ResourceNotFoundException(resourceName = "User", fieldName = "id", fieldValue = "$id")
     }
 
     override fun updatePassword(id: Long, password: String): ResponseEntity<Unit> {
