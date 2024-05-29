@@ -1,10 +1,13 @@
-package dev.darsaras.teamtalk.infraestructure.auth.user.controllers
+package dev.darsaras.teamtalk.infraestructure.auth.user
 
 import dev.darsaras.teamtalk.application.services.user.UserService
 import dev.darsaras.teamtalk.domain.models.user.requests.UserRequest
 import dev.darsaras.teamtalk.domain.models.user.requests.UserUpdateRequest
 import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
+import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -15,12 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+@Tag(
+    name = "User",
+    description = "Controller for User module"
+)
+@Validated
 @RestController
 @RequestMapping("/auth")
 class UserController(private val userService: UserService) {
 
     @PostMapping("/create")
-    fun createUser( @RequestBody userRequest: UserRequest ): ResponseEntity<Unit> {
+    fun createUser( @Valid @RequestBody userRequest: UserRequest ): ResponseEntity<Unit> {
         return userService.createUser(userRequest)
     }
 
@@ -30,7 +38,7 @@ class UserController(private val userService: UserService) {
     }
 
     @PutMapping("/update")
-    fun updateUser( @RequestBody request : UserUpdateRequest , @RequestParam id : Long) : ResponseEntity<Unit> {
+    fun updateUser( @Valid @RequestBody request : UserUpdateRequest , @RequestParam id : Long) : ResponseEntity<Unit> {
         return userService.updateUser(request , id)
     }
 
