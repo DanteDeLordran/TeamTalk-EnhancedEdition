@@ -104,6 +104,7 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Post wizard dependencies -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -138,6 +139,7 @@
 				<configuration>
 					<args>
 						<arg>-Xjsr305=strict</arg>
+						<arg>-Xemit-jvm-type-annotations</arg>
 					</args>
 					<compilerPlugins>
 						<plugin>spring</plugin>
