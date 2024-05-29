@@ -4,6 +4,9 @@ import dev.darsaras.teamtalk.application.services.user.UserService
 import dev.darsaras.teamtalk.domain.models.user.requests.UserRequest
 import dev.darsaras.teamtalk.domain.models.user.requests.UserUpdateRequest
 import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -28,26 +31,62 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(private val userService: UserService) {
 
     @PostMapping("/create")
+    @Operation(summary = "Controller for creating User from UserRequest")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "201", description = "If User was successfully created"),
+            ApiResponse(responseCode = "400" , description = "If some property is missing")
+        ]
+    )
     fun createUser( @Valid @RequestBody userRequest: UserRequest ): ResponseEntity<Unit> {
         return userService.createUser(userRequest)
     }
 
     @GetMapping("/get")
+    @Operation(summary = "Controller for get User from given id")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "If User was successfully returned"),
+            ApiResponse(responseCode = "404" , description = "If User was not found with given id")
+        ]
+    )
     fun getUser( @RequestParam id : Long ) : ResponseEntity<UserResponse> {
         return userService.getUser(id)
     }
 
     @PutMapping("/update")
+    @Operation(summary = "Controller for updating User from UserUpdateRequest")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "If User was successfully updated"),
+            ApiResponse(responseCode = "400" , description = "If some property in Request is missing"),
+            ApiResponse(responseCode = "404", description = "If User was not found with given id")
+        ]
+    )
     fun updateUser( @Valid @RequestBody request : UserUpdateRequest , @RequestParam id : Long) : ResponseEntity<Unit> {
         return userService.updateUser(request , id)
     }
 
     @DeleteMapping("/delete")
+    @Operation(summary = "Controller for deleting User from given id")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "If User was successfully deleted"),
+            ApiResponse(responseCode = "404", description = "If User was not found with given id")
+        ]
+    )
     fun deleteUser( @RequestParam id : Long ) : ResponseEntity<Unit> {
         return userService.deleteUser(id)
     }
 
     @PatchMapping("/update/password")
+    @Operation(summary = "Controller for updating User's password")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "If password was successfully updated"),
+            ApiResponse(responseCode = "404", description = "If User was not found with given id")
+        ]
+    )
     fun updatePassword( id : Long , password : String ): ResponseEntity<Unit> {
         return userService.updatePassword(id,password)
     }
