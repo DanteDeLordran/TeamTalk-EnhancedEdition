@@ -11,5 +11,10 @@ Jib handles all the steps of packaging your app into a container image. You don'
 ```
 
 ## Run migrations
-
 This project uses Flyway as database migration and version manager. For creating a new migration you can simply add a new .sql file on the db folder at : **./src/main/resources/db** , when re-running the project , Spring will automatically perform the migration
+
+## Swagger UI documentation
+All the project is documented using OpenAPI aka Swagger , you can access the endpoint's and schema's documentation under the url
+```
+http://localhost:8080/api/swagger-ui/index.html
+```
