@@ -10,6 +10,12 @@ Jib handles all the steps of packaging your app into a container image. You don'
 .\mvnw compile jib:dockerBuild
 ```
 
+## Build native image (GraalVM)
+GraalVM compiles your Java applications ahead of time into standalone binaries that start instantly, provide peak performance with no warmup, and use fewer resources.
+```
+.\mvnw -Pnative native:compile
+```
+
 ## Run migrations
 This project uses Flyway as database migration and version manager. For creating a new migration you can simply add a new .sql file on the db folder at : **./src/main/resources/db** , when re-running the project , Spring will automatically perform the migration
 
