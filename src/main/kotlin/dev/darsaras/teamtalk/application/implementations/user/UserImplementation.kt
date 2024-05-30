@@ -23,12 +23,12 @@ class UserImplementation(private val userRepository: UserRepository, private val
         val role : Role = roleRepository.findByName("ROLE_USER")
 
         val user = User(
-            name = request.name!!,
-            lastname = request.lastname!!,
-            password = request.password!!,
+            name = request.name,
+            lastname = request.lastname,
+            password = request.password,
             role = role,
-            email =  request.email!!,
-            username = request.username!!,
+            email =  request.email,
+            username = request.username,
             createdAt = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime()
         )
         userRepository.save(user)
@@ -54,10 +54,10 @@ class UserImplementation(private val userRepository: UserRepository, private val
         val user = userRepository.findById(id)
         if (user.isPresent){
 
-            user.get().name = request.name!!
-            user.get().lastname = request.lastname!!
-            user.get().username = request.username!!
-            user.get().email = request.email!!
+            user.get().name = request.name
+            user.get().lastname = request.lastname
+            user.get().username = request.username
+            user.get().email = request.email
 
             userRepository.save(user.get())
 

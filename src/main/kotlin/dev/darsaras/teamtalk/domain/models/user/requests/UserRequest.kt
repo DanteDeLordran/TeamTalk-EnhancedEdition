@@ -11,22 +11,23 @@ import jakarta.validation.constraints.NotNull
 data class UserRequest(
     @Schema(example = "Dante")
     @field:NotEmpty(message = "Name can not be null or empty")
-    val name : String?,
+    val name : String,
 
     @Schema(example = "de Lordran")
     @field:NotEmpty(message = "Lastname can not be null or empty")
-    val lastname : String?,
+    @field:NotNull(message = "Lastname can not be null")
+    val lastname : String,
 
     @Schema(example = "Lordran")
     @field:NotEmpty(message = "Username can not be null or empty")
-    val username : String?,
+    val username : String,
 
     @Schema(example = "asdasdasdasdsa")
     @field:NotEmpty(message = "Password can not be null or empty")
-    val password : String?,
+    val password : String,
 
     @Schema(example = "lordran@lordran.dev")
     @field:Email(message = "Email address not valid")
     @field:NotEmpty(message = "Email can not be null or empty")
-    val email : String?
+    val email : String
 )
