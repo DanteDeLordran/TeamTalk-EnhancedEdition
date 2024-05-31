@@ -1,5 +1,6 @@
 package dev.darsaras.teamtalk.application.implementations.group
 
+import dev.darsaras.teamtalk.application.exceptions.ResourceNotFoundException
 import dev.darsaras.teamtalk.application.services.group.GroupService
 import dev.darsaras.teamtalk.domain.models.group.Group
 import dev.darsaras.teamtalk.domain.models.group.requests.GroupRequest
@@ -16,11 +17,9 @@ import java.time.ZonedDateTime
 class GroupImplementation(private val groupRepository: GroupRepository) : GroupService{
 
     override fun createGroup(request: GroupRequest): ResponseEntity<Unit> {
-
         val foundGroup = groupRepository.findByName(request.name)
-
         if (foundGroup != null){
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build()
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }else{
             val group = Group(
                 name = request.name,
@@ -30,28 +29,22 @@ class GroupImplementation(private val groupRepository: GroupRepository) : GroupS
             groupRepository.save(group)
             return ResponseEntity.status(HttpStatus.CREATED).build()
         }
-
     }
 
     override fun getGroup(id: Long): ResponseEntity<GroupResponse> {
         val group = groupRepository.findById(id)
-
         return if (group.isPresent){
-
             val response = GroupResponse(
                 name = group.get().name,
                 createdAt = group.get().createdAt,
                 id = group.get().id ?: 0
             )
-
             ResponseEntity.status(HttpStatus.OK).body(response)
-        }else ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-
+        }else throw ResourceNotFoundException(fieldName = "id", fieldValue = "$id", resourceName = "Group")
     }
 
     override fun getAllGroups(userId: Long): ResponseEntity<List<GroupResponse>> {
         val groups = groupRepository.findAllByUsersId(userId) ?: listOf()
-
         val responses : List<GroupResponse> = groups.map {
             group ->
             GroupResponse(
@@ -68,7 +61,7 @@ class GroupImplementation(private val groupRepository: GroupRepository) : GroupS
         if (group.isPresent){
             groupRepository.deleteById(id)
             return ResponseEntity.status(HttpStatus.OK).build()
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }else throw ResourceNotFoundException(fieldName = "id", fieldValue = "$id", resourceName = "Group")
     }
 
     override fun changeGroupName(id: Long, name: String): ResponseEntity<Unit> {
@@ -77,7 +70,7 @@ class GroupImplementation(private val groupRepository: GroupRepository) : GroupS
             group.get().name = name
             groupRepository.save(group.get())
             return ResponseEntity.status(HttpStatus.OK).build()
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }else throw ResourceNotFoundException(fieldName = "id", fieldValue = "$id", resourceName = "Group")
     }
 
     override fun addMembers(id: Long, members: Set<User>): ResponseEntity<Unit> {
@@ -86,7 +79,7 @@ class GroupImplementation(private val groupRepository: GroupRepository) : GroupS
             group.get().users.addAll(members)
             groupRepository.save(group.get())
             return ResponseEntity.status(HttpStatus.OK).build()
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }else throw ResourceNotFoundException(fieldName = "id", fieldValue = "$id", resourceName = "Group")
     }
 
     override fun removeMembers(id: Long, members: Set<User>): ResponseEntity<Unit> {
@@ -95,6 +88,6 @@ class GroupImplementation(private val groupRepository: GroupRepository) : GroupS
             group.get().users.removeAll(members)
             groupRepository.save(group.get())
             return ResponseEntity.status(HttpStatus.OK).build()
-        }else return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }else throw ResourceNotFoundException(fieldName = "id", fieldValue = "$id", resourceName = "Group")
     }
 }
