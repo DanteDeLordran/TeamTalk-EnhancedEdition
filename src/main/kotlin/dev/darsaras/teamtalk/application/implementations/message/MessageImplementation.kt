@@ -21,7 +21,7 @@ class MessageImplementation(private val messageRepository: MessageRepository, pr
         val user = userRepository.findById(userId)
         if (user.isEmpty) throw ResourceNotFoundException(resourceName = "User", fieldName = "id" , fieldValue = "$userId")
         val channel = channelRepository.findById(channelId)
-        if (channel.isEmpty) throw ResourceNotFoundException(resourceName = "Channel", fieldName = "id" , fieldValue = "$userId")
+        if (channel.isEmpty) throw ResourceNotFoundException(resourceName = "Channel", fieldName = "id" , fieldValue = "$channelId")
 
         val message = Message(
             description = request.description,
@@ -40,7 +40,6 @@ class MessageImplementation(private val messageRepository: MessageRepository, pr
             id = message.get().id ?: 0,
             user = message.get().user,
             description = message.get().description,
-            channel = message.get().channel,
             createdAt = message.get().createdAt
         )
         return ResponseEntity.status(HttpStatus.OK).body(response)
@@ -54,7 +53,6 @@ class MessageImplementation(private val messageRepository: MessageRepository, pr
                 id = m.id ?: 0,
                 user = m.user,
                 description = m.description,
-                channel = m.channel,
                 createdAt = m.createdAt
             )
         }

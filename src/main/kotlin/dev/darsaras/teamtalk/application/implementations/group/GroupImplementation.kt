@@ -1,12 +1,14 @@
 package dev.darsaras.teamtalk.application.implementations.group
 
 import dev.darsaras.teamtalk.application.exceptions.ResourceNotFoundException
+import dev.darsaras.teamtalk.application.implementations.channel.ChannelImplementation
 import dev.darsaras.teamtalk.application.services.group.GroupService
 import dev.darsaras.teamtalk.domain.models.group.Group
 import dev.darsaras.teamtalk.domain.models.group.requests.GroupRequest
 import dev.darsaras.teamtalk.domain.models.group.responses.GroupResponse
 import dev.darsaras.teamtalk.domain.models.user.User
 import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
+import dev.darsaras.teamtalk.domain.repositories.channel.ChannelRepository
 import dev.darsaras.teamtalk.domain.repositories.group.GroupRepository
 import dev.darsaras.teamtalk.domain.repositories.user.UserRepository
 import org.springframework.http.HttpStatus
@@ -16,7 +18,9 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 @Service
-class GroupImplementation(private val groupRepository: GroupRepository, private val userRepository: UserRepository) : GroupService{
+class GroupImplementation(private val groupRepository: GroupRepository, private val userRepository: UserRepository,
+                          private val channelRepository: ChannelRepository, private val channelImplementation: ChannelImplementation
+) : GroupService{
 
     override fun createGroup(id: Long, request: GroupRequest): ResponseEntity<Unit> {
         val user = userRepository.findById(id)
@@ -63,6 +67,10 @@ class GroupImplementation(private val groupRepository: GroupRepository, private 
     override fun deleteGroup(id: Long): ResponseEntity<Unit> {
         val group = groupRepository.findById(id)
         if (group.isPresent){
+            val channels = channelRepository.findAllByGroupId(id) ?: listOf()
+            for (channel in channels){
+                channelImplementation.deleteChannel(channel.id ?: 0)
+            }
             groupRepository.deleteById(id)
             return ResponseEntity.status(HttpStatus.OK).build()
         }else throw ResourceNotFoundException(fieldName = "id", fieldValue = "$id", resourceName = "Group")
