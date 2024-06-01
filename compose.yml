@@ -17,7 +17,7 @@ services:
     depends_on:
       - db
     container_name: pgadmin_teamtalk
-    image: dpage/pgadmin4:6.17
+    image: dpage/pgadmin4:8
     environment:
       - PGADMIN_DEFAULT_EMAIL=lordran@lordran.dev
       - PGADMIN_DEFAULT_PASSWORD=lordran_dev

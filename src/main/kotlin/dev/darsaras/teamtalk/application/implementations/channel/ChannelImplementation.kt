@@ -26,7 +26,7 @@ class ChannelImplementation(private val channelRepository: ChannelRepository , p
             )
             channelRepository.save(channel)
             return ResponseEntity.status(HttpStatus.CREATED).build()
-        }else throw ResourceNotFoundException(fieldName = "Group", fieldValue = "$id", resourceName = "id")
+        }else throw ResourceNotFoundException(fieldName = "id", fieldValue = "$id", resourceName = "Group")
     }
 
     override fun getChannel(id: Long): ResponseEntity<ChannelResponse> {
