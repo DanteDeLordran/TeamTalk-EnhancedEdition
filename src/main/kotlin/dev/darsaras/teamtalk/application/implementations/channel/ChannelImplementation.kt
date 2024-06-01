@@ -7,6 +7,7 @@ import dev.darsaras.teamtalk.domain.models.channel.requests.ChannelRequest
 import dev.darsaras.teamtalk.domain.models.channel.responses.ChannelResponse
 import dev.darsaras.teamtalk.domain.repositories.channel.ChannelRepository
 import dev.darsaras.teamtalk.domain.repositories.group.GroupRepository
+import dev.darsaras.teamtalk.domain.repositories.message.MessageRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -14,7 +15,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 @Service
-class ChannelImplementation(private val channelRepository: ChannelRepository , private val groupRepository: GroupRepository) : ChannelService{
+class ChannelImplementation(private val channelRepository: ChannelRepository, private val groupRepository: GroupRepository, private val messageRepository: MessageRepository) : ChannelService{
 
     override fun createChannel(id: Long, request: ChannelRequest): ResponseEntity<Unit> {
         val group = groupRepository.findById(id)
@@ -35,7 +36,6 @@ class ChannelImplementation(private val channelRepository: ChannelRepository , p
             val response = ChannelResponse(
                 id= channel.get().id ?: 0,
                 name = channel.get().name,
-                group = channel.get().group,
                 createdAt = channel.get().createdAt
             )
             return ResponseEntity.status(HttpStatus.OK).body(response)
@@ -48,7 +48,6 @@ class ChannelImplementation(private val channelRepository: ChannelRepository , p
             c ->
             ChannelResponse(
                 name = c.name,
-                group = c.group,
                 id = c.id ?: 0,
                 createdAt = c.createdAt
             )
@@ -59,6 +58,7 @@ class ChannelImplementation(private val channelRepository: ChannelRepository , p
     override fun deleteChannel(id: Long): ResponseEntity<Unit> {
         val channel = channelRepository.findById(id)
         if (channel.isPresent){
+            messageRepository.deleteAllByChannelId(id)
             channelRepository.deleteById(id)
             return ResponseEntity.status(HttpStatus.OK).build()
         }else throw ResourceNotFoundException(resourceName = "Group", fieldValue = "$id", fieldName = "id")

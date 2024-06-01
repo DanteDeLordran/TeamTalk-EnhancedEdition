@@ -8,6 +8,5 @@ data class MessageResponse(
     val id : Long,
     val user : User,
     val description : String,
-    val channel : Channel,
     var createdAt : LocalDateTime
 )

@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface MessageRepository : CrudRepository<Message, Long>{
     fun findAllByChannelId( id : Long ) : List<Message>?
+    fun deleteAllByChannelId( id: Long ) : Unit
 }

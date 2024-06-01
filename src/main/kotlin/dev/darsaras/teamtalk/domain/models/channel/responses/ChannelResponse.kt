@@ -6,6 +6,5 @@ import java.time.LocalDateTime
 data class ChannelResponse(
     val id : Long,
     val name : String,
-    val group : Group,
     val createdAt : LocalDateTime
 )
