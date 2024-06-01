@@ -3,7 +3,7 @@ package dev.darsaras.teamtalk.infraestructure.app.group
 import dev.darsaras.teamtalk.application.services.group.GroupService
 import dev.darsaras.teamtalk.domain.models.group.requests.GroupRequest
 import dev.darsaras.teamtalk.domain.models.group.responses.GroupResponse
-import dev.darsaras.teamtalk.domain.models.user.User
+import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -12,15 +12,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @Tag(
     name = "Group",
@@ -40,9 +32,9 @@ class GroupController( private val groupService: GroupService) {
             ApiResponse(responseCode = "406" , description = "If GroupRequest is null")
         ]
     )
-    fun createGroup( @Valid @RequestBody request : GroupRequest? ) : ResponseEntity<Unit> {
+    fun createGroup( @RequestParam id : Long, @Valid @RequestBody request : GroupRequest? ) : ResponseEntity<Unit> {
         return if (request == null) ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build()
-        else groupService.createGroup(request)
+        else groupService.createGroup(id,request)
     }
 
     @GetMapping("/get")
@@ -106,7 +98,7 @@ class GroupController( private val groupService: GroupService) {
             ApiResponse(responseCode = "404", description = "If Group was not found with given id")
         ]
     )
-    fun addMembers( @RequestParam id: Long , @RequestBody members : Set<User>? ): ResponseEntity<Unit> {
+    fun addMembers( @RequestParam id: Long , @RequestBody members : Set<UserResponse>? ): ResponseEntity<Unit> {
         return if (members == null) groupService.addMembers(id, setOf())
         else groupService.addMembers(id,members)
     }
@@ -120,7 +112,7 @@ class GroupController( private val groupService: GroupService) {
             ApiResponse(responseCode = "404", description = "If Group was not found with given id")
         ]
     )
-    fun removeMembers( @RequestParam id: Long, @RequestBody members: Set<User>? ): ResponseEntity<Unit> {
+    fun removeMembers( @RequestParam id: Long, @RequestBody members: Set<UserResponse>? ): ResponseEntity<Unit> {
         return if (members == null)  groupService.removeMembers(id, setOf())
         else groupService.removeMembers(id,members)
     }
