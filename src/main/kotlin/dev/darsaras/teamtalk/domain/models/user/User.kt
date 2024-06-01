@@ -18,12 +18,7 @@ class User (
     var password : String,
     @ManyToOne
     var role : Role,
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "users_groups",
-        joinColumns = [JoinColumn(name= "user_id")],
-        inverseJoinColumns = [JoinColumn(name = "group_id")]
-    )
+    @ManyToMany(mappedBy = "users")
     var groups : MutableSet<Group>? = mutableSetOf(),
     var createdAt : LocalDateTime
 )

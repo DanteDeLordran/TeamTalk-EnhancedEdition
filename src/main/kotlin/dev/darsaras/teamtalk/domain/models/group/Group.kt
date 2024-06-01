@@ -11,7 +11,12 @@ class Group (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long? = null,
     var name : String,
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "users_groups",
+        joinColumns = [JoinColumn(name= "group_id")],
+        inverseJoinColumns = [JoinColumn(name = "user_id")]
+    )
     var users : MutableSet<User>,
     val createdAt : LocalDateTime
 )
