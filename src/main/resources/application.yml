@@ -3,7 +3,7 @@ spring:
     name: teamtalk
 
   profiles:
-    active: dev
+    active: ${ACTIVE_PROFILE}
 
 server:
   servlet:

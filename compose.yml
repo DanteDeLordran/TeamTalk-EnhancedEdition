@@ -2,25 +2,25 @@ version: '3'
 
 services:
   db:
-    container_name: teamtalk_db
+    container_name: ${DB_NAME}
     image: postgres:15.1
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=lordran_dev
-      - POSTGRES_PASSWORD=lordran_dev
-      - POSTGRES_DB=teamtalk_db
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
-      - "5432:5432"
+      - ${DB_PORT}:5432
 
   pgadmin:
     depends_on:
       - db
-    container_name: pgadmin_teamtalk
+    container_name: pgadmin_${DB_NAME}
     image: dpage/pgadmin4:8
     environment:
-      - PGADMIN_DEFAULT_EMAIL=lordran@lordran.dev
-      - PGADMIN_DEFAULT_PASSWORD=lordran_dev
+      - PGADMIN_DEFAULT_EMAIL=${PG_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PG_PASSWORD}
     ports:
       - "80:80"
 
