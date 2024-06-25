@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -35,11 +36,13 @@ class UserController(private val userService: UserService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "201", description = "If User was successfully created"),
-            ApiResponse(responseCode = "400" , description = "If some property is missing")
+            ApiResponse(responseCode = "400" , description = "If some property is missing"),
+            ApiResponse(responseCode = "406" , description = "If request is null")
         ]
     )
-    fun createUser( @Valid @RequestBody userRequest: UserRequest ): ResponseEntity<Unit> {
-        return userService.createUser(userRequest)
+    fun createUser( @Valid @RequestBody request: UserRequest? ): ResponseEntity<Unit> {
+        return if ( request == null ) ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build()
+        else userService.createUser(request)
     }
 
     @GetMapping("/get")
@@ -60,11 +63,13 @@ class UserController(private val userService: UserService) {
         value = [
             ApiResponse(responseCode = "200", description = "If User was successfully updated"),
             ApiResponse(responseCode = "400" , description = "If some property in Request is missing"),
-            ApiResponse(responseCode = "404", description = "If User was not found with given id")
+            ApiResponse(responseCode = "404", description = "If User was not found with given id"),
+            ApiResponse(responseCode = "406" , description = "If request is null")
         ]
     )
-    fun updateUser( @Valid @RequestBody request : UserUpdateRequest , @RequestParam id : Long) : ResponseEntity<Unit> {
-        return userService.updateUser(request , id)
+    fun updateUser( @Valid @RequestBody request : UserUpdateRequest? , @RequestParam id : Long) : ResponseEntity<Unit> {
+        return if ( request == null ) ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build()
+        else userService.updateUser(request , id)
     }
 
     @DeleteMapping("/delete")
