@@ -4,6 +4,18 @@ TeamTalk but based
 ## Stack used
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg" height=80/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg" height=80/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" height=80/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original-wordmark.svg" height=80 />
 
+## Environment variables
+```
+ACTIVE_PROFILE
+DB_USER
+DB_PASSWORD
+DB_HOST
+DB_PORT
+DB_NAME
+PG_EMAIL
+PG_PASSWORD
+```
+
 ## Build & run (Google Jib)
 Jib handles all the steps of packaging your app into a container image. You don't need to know best practices for creating Dockerfiles or have Docker installed.
 ```
