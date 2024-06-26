@@ -92,7 +92,7 @@ class UserController(private val userService: UserService) {
             ApiResponse(responseCode = "404", description = "If User was not found with given id")
         ]
     )
-    fun updatePassword( id : Long , password : String ): ResponseEntity<Unit> {
+    fun updatePassword( @RequestParam id : Long , @RequestParam password : String ): ResponseEntity<Unit> {
         return userService.updatePassword(id,password)
     }
 

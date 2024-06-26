@@ -74,7 +74,12 @@ class UserImplementation(private val userRepository: UserRepository, private val
     }
 
     override fun updatePassword(id: Long, password: String): ResponseEntity<Unit> {
-        TODO("Not yet implemented")
+        val user = userRepository.findById(id)
+        if (user.isPresent){
+            user.get().password = password
+            userRepository.save(user.get())
+            return ResponseEntity.status(HttpStatus.OK).build()
+        }else throw ResourceNotFoundException(resourceName = "User", fieldName = "id", fieldValue = "$id")
     }
 
 }
