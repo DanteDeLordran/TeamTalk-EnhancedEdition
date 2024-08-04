@@ -38,7 +38,7 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(Exception::class)
     fun handleGlobalException(e : Exception , webRequest: WebRequest): ResponseEntity<ErrorResponse> {
-        val response : ErrorResponse = ErrorResponse(
+        val response = ErrorResponse(
             apiPath = webRequest.getDescription(false),
             errorMessage = e.message ?: "No message provided",
             errorDateTime = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime()
@@ -48,7 +48,7 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFoundException(e : Exception , webRequest: WebRequest): ResponseEntity<ErrorResponse>{
-        val response : ErrorResponse = ErrorResponse(
+        val response = ErrorResponse(
             apiPath = webRequest.getDescription(false),
             errorMessage = e.message ?: "No message provided",
             errorDateTime = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime()
