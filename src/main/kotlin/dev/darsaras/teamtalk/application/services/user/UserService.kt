@@ -6,6 +6,7 @@ import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
 import org.springframework.http.ResponseEntity
 
 interface UserService {
+    fun login(  ) : ResponseEntity<UserResponse>
     fun createUser(request : UserRequest) : ResponseEntity<Unit>
     fun getUser(id : Long) : ResponseEntity<UserResponse>
     fun updateUser( request: UserUpdateRequest , id : Long ): ResponseEntity<Unit>

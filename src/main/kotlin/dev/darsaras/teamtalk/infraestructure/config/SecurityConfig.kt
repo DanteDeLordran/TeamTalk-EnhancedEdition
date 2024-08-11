@@ -12,15 +12,18 @@ class SecurityConfig {
     @Bean
     fun securityConfiguration( http : HttpSecurity ) : SecurityFilterChain {
         http {
-            csrf {  }
+            csrf { disable() }
             cors {  }
-            securityMatcher("/api/**")
             authorizeRequests {
                 authorize("/swagger-ui/**", permitAll)
-                authorize(anyRequest,authenticated)
+                authorize("/v3/api-docs/**", permitAll)
+                authorize("/swagger-resources/**", permitAll)
+                authorize("/webjars/**", permitAll)
+                authorize("/auth/**", authenticated)
+                authorize(anyRequest, authenticated)
             }
             httpBasic {  }
-            formLogin {  }
+            formLogin { disable() }
         }
         return http.build()
     }
