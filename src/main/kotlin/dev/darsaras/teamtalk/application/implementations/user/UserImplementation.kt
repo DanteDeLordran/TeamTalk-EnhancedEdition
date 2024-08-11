@@ -18,6 +18,10 @@ import java.time.ZonedDateTime
 @Service
 class UserImplementation(private val userRepository: UserRepository, private val roleRepository: RoleRepository ) : UserService{
 
+    override fun login(): ResponseEntity<UserResponse> {
+        TODO("Not yet implemented")
+    }
+
     override fun createUser(request: UserRequest): ResponseEntity<Unit> {
 
         val role : Role = roleRepository.findByName("ROLE_USER")
