@@ -2,8 +2,8 @@ package dev.darsaras.teamtalk.infraestructure.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
@@ -11,11 +11,17 @@ class SecurityConfig {
 
     @Bean
     fun securityConfiguration( http : HttpSecurity ) : SecurityFilterChain {
-        http.authorizeHttpRequests {
-            r -> r.anyRequest().permitAll()
+        http {
+            csrf {  }
+            cors {  }
+            securityMatcher("/api/**")
+            authorizeRequests {
+                authorize("/swagger-ui/**", permitAll)
+                authorize(anyRequest,authenticated)
+            }
+            httpBasic {  }
+            formLogin {  }
         }
-        http.formLogin { Customizer.withDefaults<Any>() }
-        http.httpBasic { Customizer.withDefaults<Any>() }
         return http.build()
     }
 
