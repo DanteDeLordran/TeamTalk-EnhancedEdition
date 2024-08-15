@@ -11,12 +11,16 @@ import dev.darsaras.teamtalk.domain.repositories.role.RoleRepository
 import dev.darsaras.teamtalk.domain.repositories.user.UserRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 @Service
-class UserImplementation(private val userRepository: UserRepository, private val roleRepository: RoleRepository ) : UserService{
+class UserImplementation(
+    private val userRepository: UserRepository,
+    private val roleRepository: RoleRepository,
+    private val passwordEncoder: PasswordEncoder) : UserService{
 
     override fun login(): ResponseEntity<UserResponse> {
         TODO("Not yet implemented")
@@ -29,7 +33,7 @@ class UserImplementation(private val userRepository: UserRepository, private val
         val user = User(
             name = request.name,
             lastname = request.lastname,
-            password = request.password,
+            password = passwordEncoder.encode(request.password),
             role = role,
             email =  request.email,
             username = request.username,
