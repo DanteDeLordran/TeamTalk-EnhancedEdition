@@ -45,6 +45,7 @@ class SecurityConfig {
                 authorize("/v3/api-docs/**", permitAll)
                 authorize("/swagger-resources/**", permitAll)
                 authorize("/webjars/**", permitAll)
+                authorize("/auth/create", permitAll)
                 authorize("/auth/**", authenticated)
                 authorize(anyRequest, authenticated)
             }
