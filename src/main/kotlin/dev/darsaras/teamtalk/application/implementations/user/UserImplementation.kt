@@ -26,6 +26,11 @@ class UserImplementation(
         TODO("Not yet implemented")
     }
 
+    override fun getUserPassword(email: String): String {
+        val user = userRepository.findByEmail(email) ?: throw ResourceNotFoundException(resourceName = "User", fieldName = "email", fieldValue = email)
+        return user.password
+    }
+
     override fun createUser(request: UserRequest): ResponseEntity<Unit> {
 
         val role : Role = roleRepository.findByName("ROLE_USER")
@@ -41,6 +46,19 @@ class UserImplementation(
         )
         userRepository.save(user)
         return ResponseEntity.status(HttpStatus.CREATED).build()
+    }
+
+    override fun getUserByEmail(email: String): ResponseEntity<UserResponse> {
+        val user = userRepository.findByEmail(email) ?: throw ResourceNotFoundException(resourceName = "User", fieldName = "email", fieldValue = email)
+        val response = UserResponse(
+            id = user.id ?: 1,
+            name = user.name,
+            lastname = user.lastname,
+            email = user.email,
+            username = user.username,
+            role = user.role
+        )
+        return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 
     override fun getUser(id: Long): ResponseEntity<UserResponse> {
