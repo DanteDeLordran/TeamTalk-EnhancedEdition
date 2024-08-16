@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity
 
 interface UserService {
     fun login(  ) : ResponseEntity<UserResponse>
+    fun getUserPassword( email : String ) : String
     fun createUser(request : UserRequest) : ResponseEntity<Unit>
+    fun getUserByEmail( email : String ) : ResponseEntity<UserResponse>
     fun getUser(id : Long) : ResponseEntity<UserResponse>
     fun updateUser( request: UserUpdateRequest , id : Long ): ResponseEntity<Unit>
     fun deleteUser( id: Long ) : ResponseEntity<Unit>
