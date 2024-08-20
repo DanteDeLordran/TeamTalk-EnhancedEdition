@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -30,6 +31,18 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/auth")
 class UserController(private val userService: UserService) {
+
+    @GetMapping("/login")
+    @Operation(summary = "Logins the user")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200" , description = "If User was successfully logged in"),
+            ApiResponse(responseCode = "401" , description = "If password or email were wrong")
+        ]
+    )
+    fun login( authentication: Authentication ) : ResponseEntity<UserResponse> {
+        return userService.login( authentication )
+    }
 
     @PostMapping("/create")
     @Operation(summary = "Controller for creating User from UserRequest")
