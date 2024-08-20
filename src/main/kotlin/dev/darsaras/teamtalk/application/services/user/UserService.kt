@@ -4,9 +4,10 @@ import dev.darsaras.teamtalk.domain.models.user.requests.UserRequest
 import dev.darsaras.teamtalk.domain.models.user.requests.UserUpdateRequest
 import dev.darsaras.teamtalk.domain.models.user.responses.UserResponse
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 
 interface UserService {
-    fun login(  ) : ResponseEntity<UserResponse>
+    fun login( authentication : Authentication ) : ResponseEntity<UserResponse>
     fun getUserPassword( email : String ) : String
     fun createUser(request : UserRequest) : ResponseEntity<Unit>
     fun getUserByEmail( email : String ) : ResponseEntity<UserResponse>

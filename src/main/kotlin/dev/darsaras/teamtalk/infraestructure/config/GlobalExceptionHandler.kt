@@ -36,16 +36,6 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationErrors)
     }
 
-    @ExceptionHandler(Exception::class)
-    fun handleGlobalException(e : Exception , webRequest: WebRequest): ResponseEntity<ErrorResponse> {
-        val response = ErrorResponse(
-            apiPath = webRequest.getDescription(false),
-            errorMessage = e.message ?: "No message provided",
-            errorDateTime = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime()
-        )
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response)
-    }
-
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFoundException(e : Exception , webRequest: WebRequest): ResponseEntity<ErrorResponse>{
         val response = ErrorResponse(
@@ -54,6 +44,16 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
             errorDateTime = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime()
         )
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response)
+    }
+
+    @ExceptionHandler(Exception::class)
+    fun handleGlobalException(e : Exception , webRequest: WebRequest): ResponseEntity<ErrorResponse> {
+        val response = ErrorResponse(
+            apiPath = webRequest.getDescription(false),
+            errorMessage = e.message ?: "No message provided",
+            errorDateTime = ZonedDateTime.now(ZoneId.of("America/Mexico_City")).toLocalDateTime()
+        )
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response)
     }
 
 }

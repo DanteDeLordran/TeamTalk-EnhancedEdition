@@ -11,6 +11,7 @@ import dev.darsaras.teamtalk.domain.repositories.role.RoleRepository
 import dev.darsaras.teamtalk.domain.repositories.user.UserRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.ZoneId
@@ -22,13 +23,25 @@ class UserImplementation(
     private val roleRepository: RoleRepository,
     private val passwordEncoder: PasswordEncoder) : UserService{
 
-    override fun login(): ResponseEntity<UserResponse> {
-        TODO("Not yet implemented")
+    override fun login(authentication: Authentication): ResponseEntity<UserResponse> {
+        val user = userRepository.findByEmail(authentication.name) ?: throw ResourceNotFoundException(resourceName = "User", fieldName = "email", fieldValue = authentication.name)
+        val response = UserResponse(
+            id = user.id ?: 1,
+            name = user.name,
+            lastname = user.lastname,
+            email = user.email,
+            username = user.username,
+            role = user.role
+        )
+        return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 
     override fun getUserPassword(email: String): String {
-        val user = userRepository.findByEmail(email) ?: throw ResourceNotFoundException(resourceName = "User", fieldName = "email", fieldValue = email)
-        return user.password
+        val user = userRepository.findByEmail(email)
+        if (user != null){
+            return user.password
+        }else throw ResourceNotFoundException(resourceName = "User", fieldName = "email", fieldValue = email)
+
     }
 
     override fun createUser(request: UserRequest): ResponseEntity<Unit> {
