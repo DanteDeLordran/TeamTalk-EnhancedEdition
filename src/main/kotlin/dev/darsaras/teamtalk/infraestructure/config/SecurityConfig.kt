@@ -1,5 +1,8 @@
 package dev.darsaras.teamtalk.infraestructure.config
 
+import dev.darsaras.teamtalk.application.services.user.UserService
+import dev.darsaras.teamtalk.infraestructure.filters.JwtGeneratorFilter
+import dev.darsaras.teamtalk.infraestructure.filters.JwtValidatorFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -9,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 
@@ -16,7 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource
 class SecurityConfig {
 
     @Bean
-    fun securityConfiguration( http : HttpSecurity ) : SecurityFilterChain {
+    fun securityConfiguration( http : HttpSecurity, userService: UserService ) : SecurityFilterChain {
         http {
             sessionManagement {
                 sessionCreationPolicy = SessionCreationPolicy.STATELESS
@@ -40,6 +44,8 @@ class SecurityConfig {
                     }
                 }
             }
+            addFilterAfter<BasicAuthenticationFilter>(JwtGeneratorFilter(userService))
+            addFilterBefore<BasicAuthenticationFilter>(JwtValidatorFilter())
             authorizeRequests {
                 authorize("/swagger-ui/**", permitAll)
                 authorize("/v3/api-docs/**", permitAll)
