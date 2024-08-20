@@ -27,7 +27,7 @@ class JwtGeneratorFilter(private val userService: UserService) : OncePerRequestF
                 .issuer("DanteDeLordran")
                 .subject("BPCToken")
                 .claim("email",user?.email)
-                .claim("role", user?.role )
+                .claim("role", user?.role?.name ?: "ROLE_NONE")
                 .issuedAt(Date())
                 .expiration(Date(Date().time + expiration))
                 .signWith(key)
