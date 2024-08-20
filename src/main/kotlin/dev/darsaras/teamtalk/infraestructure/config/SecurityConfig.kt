@@ -52,7 +52,7 @@ class SecurityConfig {
                 authorize("/swagger-resources/**", permitAll)
                 authorize("/webjars/**", permitAll)
                 authorize("/auth/create", permitAll)
-                authorize("/auth/**", authenticated)
+                authorize("/auth/**", hasRole("ROLE_USER"))
                 authorize(anyRequest, authenticated)
             }
             httpBasic {  }
